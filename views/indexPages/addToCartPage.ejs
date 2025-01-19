@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClothingHub</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/indexPagesCss/addToCartPage.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+    <header>
+      <nav class="navigation navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container">
+          <!-- Brand -->
+          <a href="#" class="logo">
+            ClothingHub
+          </a>
+
+          <!-- Toggler Button -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar Links -->
+          <div class="collapse navbar-collapse " id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a href="/" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">About</a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">Category</a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">Shop</a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">Contact</a>
+              </li>
+            </ul>
+
+            <!-- Icons Section -->
+            <div class="d-flex">
+              <a href="/customerProfile" class="icon nav-link">
+                <i class="fa-solid fa-user"></i>
+              </a>
+              <a href="" class="icon nav-link">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </a>
+              <a href="" class="icon nav-link">
+                <i class="fa-regular fa-heart"></i>
+              </a>
+              <a href="" class="icon nav-link">
+                <i class="fa-solid fa-cart-shopping"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <!-- Product Page -->
+      <div class="product-page">
+        <div class="container">
+          <div class="row justify-content-between">
+            <!-- Left Section: Product Images -->
+            <div class="image-container col-12 d-flex justify-content-end mb-4 col-lg-6 mb-lg-0">
+              <div class="position-relative">
+                <img src="<%=productData.productImage%>" class="main-image" id="main-image" alt="Main Product" />
+                <div class="zoom-lens"></div>
+                <div class="zoom-result"></div>
+              </div>
+            </div>
+            <!-- Right Section: Product Details -->
+            <div class="col-12 d-flex align-items-center justify-content-start col-lg-6">
+              <div class="product-details ps-lg-5">
+                <h1 class="mb-3">
+                  <%=productData.productName%>
+                </h1>
+                <p class="rating mb-3">
+                  <i class="fas fa-star text-warning"></i>
+                  <i class="fas fa-star text-warning"></i>
+                  <i class="fas fa-star text-warning"></i>
+                  <i class="fas fa-star text-warning"></i>
+                  <i class="fas fa-star-half-alt text-warning"></i>
+                  <span class="text-muted">(8k+ reviews)</span>
+                </p>
+                <p class="price mb-2">
+                  <ins>
+                    ₹<%=productData.currentPrice%>
+                  </ins>
+                  <del>
+                    <%=productData.originalPrice%>
+                  </del>
+                </p>
+                <p class="discount mb-3">
+                  <strong>DISCOUNT :</strong>
+                  <%=productData.discount%>%
+                </p>
+                <p class="description text-secondary mb-4">
+                  <%=productData.description%>
+                </p>
+                <form method="post" action="/addCartData">
+                  <input type="hidden" value="<%=productData.productImage%>" name="productImg">
+                  <input type="hidden" value="<%=productData.currentPrice%>" name="price">
+                  <input type="hidden" value="<%=productData.productName%>" name="productName">
+                  <input type="hidden" value="<%=productData.shopName%>" name="shopName">
+                  <div class="options mb-4">
+                    <div class="sizes mb-3">
+                      <p class="fw-bold d-flex align-items-center">
+                        SIZES:
+                        <% if (productData.sizes && productData.sizes.length> 0) { %>
+                          <% productData.sizes.forEach(function(size, index) { %>
+                            <label class="size-label">
+                              <input type="radio" name="size" value="<%= size %>" class="size-input"
+                                onclick="setActive(this, 'size-label')" required>
+                              <span>
+                                <%= size %>
+                              </span>
+                            </label>
+                            <% }) %>
+                              <% } else { %>
+                                <span>No sizes available.</span>
+                                <% } %>
+                      </p>
+                    </div>
+                    <div class="categories mb-3">
+                      <p class="fw-bold">
+                        CATEGORIES:
+                        <% if (productData.categories && productData.categories.length> 0) { %>
+                          <% productData.categories.forEach(function(category, index) { %>
+                            <label class="category-label">
+                              <input type="radio" name="category" value="<%= category %>" class="category-input"
+                                onclick="setActive(this, 'category-label')" required>
+                              <span>
+                                <%= category %>
+                              </span>
+                            </label>
+                            <% }) %>
+                              <% } else { %>
+                                <span>No categories available.</span>
+                                <% } %>
+
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row gap-4">
+                    <div class="col-12">
+                      <div class="d-flex align-items-center justify-content-center cart-control">
+                        <span id="decrement" class="minus-btn me-3">-</span>
+                        <input type="text" id="counterValue" class="mx-3 quantity-selector" name="quantity" value="1"
+                          min="1">
+                        <!-- <button id="counterValue" class="mx-3">1</button> -->
+                        <span id="increment" class="add-btn ms-3">+</span>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <button type="submit" class="add-to-cart-btn">add to cart</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="footer-container">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 mb-4 col-sm-6 mb-sm-5 col-xl-3 mb-xl-0">
+              <div class="content_1">
+                <a href="" class="navbar-brand">
+                  <span class="logo">ClothingHub</span>
+                </a>
+                <p>The customer is at the heart of our<br>unique business model, which includes<br>design.</p>
+                <img src="/images/illustration/cards.png" alt="cards">
+              </div>
+            </div>
+            <div class="col-12 mb-4 col-sm-6 mb-sm-5 col-xl-3 mb-xl-0">
+              <div class="content_2">
+                <h4>SHOPPING</h4>
+                <a href="#sellers">Clothing Store</a>
+                <a href="#sellers">Trending Shoes</a>
+                <a href="#sellers">Accessories</a>
+                <a href="#sellers">Sale</a>
+              </div>
+            </div>
+            <div class="col-12 mb-4 col-sm-6 mb-sm-5 col-xl-3 mb-xl-0">
+              <div class="content_3">
+                <h4>SHOPPING</h4>
+                <a href="./contact.html">Contact Us</a>
+                <a href="https://payment-method-sb.netlify.app/" target="_blank">Payment Method</a>
+                <a href="https://delivery-status-sb.netlify.app/" target="_blank">Delivery</a>
+                <a href="https://codepen.io/sandeshbodake/full/Jexxrv" target="_blank">Return and Exchange</a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 mb-sm-5 col-xl-3">
+              <div class="content_4">
+                <h4>NEWLETTER</h4>
+                <p>Be the first to know about new<br>arrivals, look books, sales & promos!</p>
+                <div class="f-mail">
+                  <input type="email" placeholder="Your Email">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="f-design">
+        <div class="f-design-txt container">
+          <p class="mb-0">Design and Code by @Manoj Patil</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Select the elements
+    const decrementButton = document.getElementById('decrement');
+    const incrementButton = document.getElementById('increment');
+    const counterValue = document.getElementById('counterValue');
+
+    // Add event listeners
+    decrementButton.addEventListener('click', () => {
+      // Decrement the value but ensure it doesn't go below 1
+      let currentValue = parseInt(counterValue.value);
+      if (currentValue > 1) {
+        counterValue.value = currentValue - 1;
+      }
+    });
+
+    incrementButton.addEventListener('click', () => {
+      // Increment the value
+      let currentValue = parseInt(counterValue.value);
+      counterValue.value = currentValue + 1;
+    });
+
+
+
+    function setActive(element, labelClass) {
+      // Remove 'active' class from all labels with the same class
+      const labels = document.querySelectorAll(`.${labelClass}`);
+      labels.forEach(label => label.classList.remove('active'));
+
+      // Add 'active' class to the parent label of the clicked input
+      element.parentElement.classList.add('active');
+    }
+
+
+    //zoom effect
+    document.addEventListener("DOMContentLoaded", function () {
+      const mainImage = document.getElementById("main-image");
+      const zoomLens = document.querySelector(".zoom-lens");
+      const zoomResult = document.querySelector(".zoom-result");
+
+      let mainImageRect;
+      const zoomLevel = 3; // Adjust zoom level as needed
+
+      // Function to update dimensions and background size on resize
+      function updateImageDimensions() {
+        mainImageRect = mainImage.getBoundingClientRect();
+        zoomResult.style.backgroundImage = `url(${mainImage.src})`;
+        zoomResult.style.backgroundSize = `${mainImageRect.width * zoomLevel}px ${mainImageRect.height * zoomLevel
+          }px`;
+      }
+
+      // Call the function on load and resize
+      updateImageDimensions();
+      window.addEventListener("resize", updateImageDimensions);
+
+      // Mouse events
+      mainImage.addEventListener("mousemove", moveLens);
+      mainImage.addEventListener("mouseenter", function () {
+        zoomLens.style.display = "block";
+        zoomResult.style.display = "block";
+      });
+      mainImage.addEventListener("mouseleave", function () {
+        zoomLens.style.display = "none";
+        zoomResult.style.display = "none";
+      });
+
+      function moveLens(event) {
+        event.preventDefault();
+
+        // Get cursor position relative to the image
+        const x = event.pageX - mainImageRect.left - window.scrollX;
+        const y = event.pageY - mainImageRect.top - window.scrollY;
+
+        const lensWidth = zoomLens.offsetWidth;
+        const lensHeight = zoomLens.offsetHeight;
+
+        // Calculate lens position
+        let lensX = x - lensWidth / 2;
+        let lensY = y - lensHeight / 2;
+
+        // Prevent the lens from moving outside the bounds of the main image
+        if (lensX < 0) lensX = 0;
+        if (lensY < 0) lensY = 0;
+        if (lensX > mainImageRect.width - lensWidth)
+          lensX = mainImageRect.width - lensWidth;
+        if (lensY > mainImageRect.height - lensHeight)
+          lensY = mainImageRect.height - lensHeight;
+
+        // Move the lens
+        zoomLens.style.left = `${lensX}px`;
+        zoomLens.style.top = `${lensY}px`;
+
+        // Calculate background position for zoom result
+        const backgroundX = (lensX / mainImageRect.width) * 100;
+        const backgroundY = (lensY / mainImageRect.height) * 100;
+
+        zoomResult.style.backgroundPosition = `${backgroundX}% ${backgroundY}%`;
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

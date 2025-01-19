@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClothingHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/css/customerCss/customerLogin.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <form id="loginForm" method="post" action="/customerLogin" autocomplete="off">
+      <h2>Customer Login</h2>
+      <div class="input-field">
+        <input type="text" id="email" name="email" required>
+        <label>Email</label>
+      </div>
+      <span class="error email-error"></span>
+      <div class="input-field">
+        <input type="password" id="password" name="password" required>
+        <label>Password</label>
+      </div>
+      <span class="error password-error"></span>
+      <div class="forget">
+        <label for="remember">
+          <input type="checkbox" id="remember">
+          <p class="remember-me">Remember me</p>
+        </label>
+        <a href="/cstForgetPassPage" class="forget-pass">Forgot password?</a>
+      </div>
+      <button type="submit">Log In</button>
+      <div class="login">
+        <p>Don't have an account? <a href="/customerSignupPage">Register</a></p>
+      </div>
+    </form>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Handle form submission
+      $('#loginForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        // Clear previous errors
+        $('.error').text('');
+
+        // Get form values
+        const email = $('#email').val().trim();
+        const password = $('#password').val().trim();
+        let isValid = true;
+
+        // Validate email
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+          $('.email-error').text('Please enter a valid email address.');
+          isValid = false;
+        }
+
+        // Validate password
+        if (password.length < 2) {
+          $('.password-error').text('Password must be at least 3 characters long.');
+          isValid = false;
+        }
+
+        // If valid, send data via Ajax
+        if (isValid) {
+          $.ajax({
+            url: '/customerLogin',
+            method: 'POST',
+            data: {
+              email: email,
+              password: password,
+            },
+            success: function (response) {
+              // Handle success response
+              //alert(response.message || 'Login successful!');
+              window.location.href = '/'; // Redirect on success
+            },
+            error: function (error) {
+              // Handle error response
+              const errors = error.responseJSON;
+              if (errors) {
+                if (errors.email) {
+                  $('.email-error').text(errors.email);
+                }
+                if (errors.password) {
+                  $('.password-error').text(errors.password);
+                }
+              } else {
+                alert('An error occurred. Please try again.');
+              }
+            },
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

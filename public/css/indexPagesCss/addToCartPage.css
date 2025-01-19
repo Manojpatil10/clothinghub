@@ -1,0 +1,335 @@
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Jost", serif;
+}
+
+
+.navigation {
+  background-color: black;
+  color: white;
+  padding: 15px 0;
+}
+
+.logo {
+  text-decoration: none;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.nav-link {
+  text-decoration: none;
+  margin: 0 8px;
+  font-size: 18px;
+  color: #ddd;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: #fff;
+}
+
+.icon {
+  color: white;
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+
+
+.product-page{
+  padding: 80px 0;
+}
+.main-image {
+  width: 100%;
+  position: relative;
+  display: block;
+}
+
+/* Zoom lens */
+.zoom-lens {
+  position: absolute;
+  border: 1px solid #000;
+  width: 100px; /* Adjust size as needed */
+  height: 100px; /* Adjust size as needed */
+  background: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  display: none; /* Initially hidden */
+}
+
+/* Zoom result */
+.zoom-result {
+  position: absolute;
+  top: 0;
+  left: 460px; /* Adjust for placement */
+  width: 300px; /* Adjust size as needed */
+  height: 300px; /* Adjust size as needed */
+  border: 1px solid #000;
+  background-repeat: no-repeat;
+  background-size: 550px 600px; /* 3x the original size for zoomLevel = 3 */
+  display: none; /* Initially hidden */
+}
+
+
+
+.zoom-lens {
+  position: absolute;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  width: 100px; /* Adjust lens size */
+  height: 100px;
+  background: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  display: none; /* Initially hidden */
+  z-index: 10;
+}
+
+.zoom-result {
+  position: absolute;
+  top: 0;
+  left: 570px; /* Adjust placement relative to the image */
+  width: 300px; /* Adjust result size */
+  height: 300px;
+  border: 1px solid #ddd;
+  background-repeat: no-repeat;
+  display: none; /* Initially hidden */
+  z-index: 10;
+}
+
+
+
+
+.product-details h1 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.product-details .price ins{
+  text-decoration: none;
+  font-size: 28px;
+  font-weight: 600;
+  color: green;
+}
+
+.product-details .price del{
+  font-size: 23px;
+  font-weight: 600;
+  color: #767676;
+}
+
+.product-details .description {
+  line-height: 1.6;
+}
+.size-label {
+  display: inline-block;
+  /* border-radius: 5px; */
+  border-radius: 2px;
+  border: 1px solid #e4e4e4;
+  cursor: pointer;
+  padding: 3px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222222;
+  margin-left: 20px;
+  text-align: center;
+  user-select: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.size-label input[type="radio"] {
+  display: none; /* Hide the default radio button */
+}
+
+.size-label span {
+  display: inline-block;
+  color: #222222;
+}
+
+/* Default border and background */
+.size-label:hover {
+  border-color: #222222;
+}
+
+/* Change the border and background when the size is selected */
+.size-label input[type="radio"]:checked + span {
+  border-color: #222222;
+}
+
+/* Styling for categories (same as sizes) */
+.category-label {
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 2px;
+  border: 1px solid #e4e4e4;
+  padding: 3px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222222;
+  margin-left: 20px;
+  text-align: center;
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+.category-label input[type="radio"] {
+  display: none; /* Hide the default radio button */
+}
+
+.category-label span {
+  display: inline-block;
+  color: #222222;
+}
+
+/* Default border and background */
+.category-label:hover {
+  border-color: #222222;
+}
+
+/* Change the border and background when the category is selected */
+.category-label input[type="radio"]:checked + span {
+  border-color: #222222;
+}
+.size-label.active,.category-label.active{
+  border: 1px solid #222222;
+}
+.cart-control{
+  padding: 15px;
+  border: 1px solid #222222;
+  width: 100%;
+}
+.minus-btn,.add-btn{
+  /* border: none;
+  outline: none; */
+  box-shadow: none;
+  font-size: 20px;
+  color: #000;
+  background-color: transparent;
+  cursor: pointer;
+}
+.quantity-selector{
+  width: 50px;
+  text-align: center;
+  border: none;
+  font-size: 20px;
+}
+.add-to-cart-btn{
+  display: block;
+  width: 100%;
+  padding: 15px 30px;
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  outline: none;
+  color: #fff;
+  border: none;
+  background-color: #1d1d1d;
+}
+
+
+/* footer  */
+footer {
+  background: #000;
+}
+.footer-container {
+  padding: 60px 0;
+}
+.footer-container .content_1 img {
+  width: 240px;
+}
+.footer-container h4 {
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+.footer-container a {
+  display: block;
+  text-decoration: none;
+  color: #aaa;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.footer-container .content_1 p,
+.footer-container .content_4 p {
+  color: #aaa;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+.footer-container .content_4 .f-mail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #767676;
+  padding: 10px;
+}
+.footer-container .content_4 input[type="email"] {
+  background-color: #000;
+  border: none;
+  color: #fff;
+  outline: none;
+}
+.footer-container .content_4 i{
+  color: #fff;
+}
+.footer-hr{
+  border-top: 1px solid #aaa;
+}
+.f-design {
+  width: 100%;
+  color: #fff;
+  text-align: center;
+}
+.f-design .f-design-txt {
+  border-top: 1px solid #aaa;
+  padding: 25px 0;
+}
+.f-design .f-design-txt p{
+  font-size: 17px;
+  color: #aaa;
+  border-bottom: 0;
+}
+
+
+@media(min-width:576px){
+  .footer-container h4{
+    font-size: 20px;
+  }
+}
+
+@media(min-width:768px){
+  .logo{
+    font-size: 30px;
+  }
+  
+  .footer-container .content_1 p,.footer-container .content_4 p{
+    font-size: 17px;
+  }
+  .footer-container a{
+    font-size: 17px;
+  }
+  .f-design .f-design-txt p{
+    font-size: 20px;
+  }
+}
+
+@media(min-width:992px){
+  .main-image{
+    width: 450px;
+    height: 600px;
+  }
+  
+}
+
+@media(min-width:1200px){
+  .main-image{
+    width: 550px;
+    height: 600px;
+  }
+}

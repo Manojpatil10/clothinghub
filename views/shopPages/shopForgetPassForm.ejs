@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClothingHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/css/shopCss/shopForgetPassForm.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <form id="shopResetPassForm" method="post" action="/shopUpdatePass" autocomplete="off">
+      <h2>Reset Password</h2>
+      <input type="text" id="email" name="email" value="<%=email%>" hidden>
+      <div class="input-field">
+        <input type="text" id="newPassword" name="pass" required>
+        <label>New Password</label>
+      </div>
+      <span class="error" id="password-error"></span>
+      <div class="input-field">
+        <input type="text" id="confirmPassword" name="confirmPass" required>
+        <label>Confirm Password</label>
+      </div>
+      <span class="error" id="confirmPassword-error"></span>
+      <button type="submit">Reset Password</button>
+    </form>
+  </div>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#shopResetPassForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent form submission
+
+        // Get form field values
+        const password = $('#newPassword').val().trim();
+        const confirmPassword = $('#confirmPassword').val().trim();
+
+        // Reset error messages
+        $('#password-error').text('');
+        $('#confirmPassword-error').text('');
+
+        // Password validation regex
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        // Validate password
+        let valid = true;
+        if (password.length < 2) {
+          $('#password-error').text('Password must be greater than 2 characters.');
+          valid = false;
+        }
+
+        // Check if passwords match
+        if (password !== confirmPassword) {
+          $('#confirmPassword-error').text('Passwords do not match.');
+          valid = false;
+        }
+
+        if (valid) {
+          // Submit the form via Ajax
+          $.ajax({
+            url: '/shopUpdatePass',
+            method: 'POST',
+            data: {
+              email: $('#email').val(),
+              pass: password,
+              confirmPass: confirmPassword,
+            },
+            success: function (response) {
+              alert('Password updated successfully!');
+              window.location.href = '/shopLoginPage';
+            },
+            error: function () {
+              alert('An error occurred while updating the password.');
+              window.location.href = '/shopResetPassform';
+            },
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

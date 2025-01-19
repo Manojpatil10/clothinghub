@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClothingHub</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/adminCss/adminPage.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <header>
+      <nav class="navigation navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container">
+          <!-- Brand -->
+          <a href="#" class="logo">
+            ClothingHub
+          </a>
+
+          <!-- Toggler Button -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar Links -->
+          <div class="collapse navbar-collapse " id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a href="/adminPage?content=Dashboard"
+                  class="nav-link <%= content === 'Dashboard' ? 'active' : '' %>">Dashboard
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/adminPage?content=Shops" class="nav-link <%= content === 'Shops' ? 'active' : '' %>">Shops
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/adminPage?content=Products"
+                  class="nav-link <%= content === 'Products' ? 'active' : '' %>">Products
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/adminPage?content=Reports"
+                  class="nav-link <%= content === 'Reports' ? 'active' : '' %>">Reports
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/adminLogout" class="nav-link">Logout</a>
+              </li>
+            </ul>
+
+            <!-- Icons Section -->
+            <div class="d-flex">
+              <a href="/" class="icon nav-link">
+                <i class="fa-solid fa-right-from-bracket logout-icon"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="main-content">
+        <div class="container overflow-auto h-100">
+          <%if(content==='Products'){%>
+            <div class="product-div">
+              <h3 class="heading">Approved Products</h3>
+              <div class="product-container h-100">
+                <% if (productData.filter((i)=> i.check === "Pending").length === 0) { %>
+                  <div class="no-data">
+                    <i class="bi bi-inbox"></i>
+                    No pending product requests.
+                  </div>
+                  <% } else { %>
+                    <div class="product-div">
+                      <% if (productData.filter((i)=> i.check === "Pending").length === 0) { %>
+                        <div class="no-data">
+                          <i class="bi bi-inbox"></i>
+                          No pending product requests.
+                        </div>
+                        <% } else { %>
+                          <table class="product-table">
+                            <thead>
+                              <tr>
+                                <th>Product Name</th>
+                                <th>Shop Name</th>
+                                <th>Current Price</th>
+                                <th>Original Price</th>
+                                <th>Discount</th>
+                                <th colspan="2">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% productData.filter((i)=> i.check === "Pending").map((i) => { %>
+                                <tr>
+                                  <td>
+                                    <%= i.productName %>
+                                  </td>
+                                  <td>
+                                    <%= i.shopName %>
+                                  </td>
+                                  <td>₹<%= i.currentPrice %>
+                                  <td>₹<%= i.originalPrice %>
+                                  </td>
+                                  <td>
+                                    <%= i.discount %>
+                                  </td>
+                                  <td>
+                                    <a href="/productApproved?checkId=<%= encodeURIComponent(i._id) %>&value=Approved"
+                                      class="icon check" title="Approve">
+                                      <i class="fas fa-check-circle"></i> Accept
+                                    </a>
+                                  </td>
+                                  <td>
+                                    <a href="/productApproved?checkId=<%= encodeURIComponent(i._id) %>&value=Rejected"
+                                      class="icon cross" title="Reject">
+                                      <i class="fas fa-times-circle"></i> Reject
+                                    </a>
+                                  </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                          </table>
+                          <% } %>
+                    </div>
+
+                    <% } %>
+              </div>
+            </div>
+            <%}else if(content==='Shops' ){%>
+              <div class="shop-div h-100">
+                <h3 class="heading">Registered Shops</h3>
+                <div class="shop-container">
+                  <div class="row">
+                    <% if (shopData.length===0) { %>
+                      <div class="no-data">
+                        <i class="bi bi-inbox"></i>
+                        No shop registered
+                      </div>
+                      <% } else { %>
+                        <% shopData.map((shop)=> { %>
+                          <div class="col-12 col-md-6 col-lg-4 mb-4">
+                            <div class="shop-card-outer">
+                              <div class="shop-card">
+
+                                <div class="shop-img">
+                                  <img src="<%= shop.coverImg %>" alt="Shop Image" />
+                                </div>
+                                <div class="shop-details">
+                                  <h4 class="shop-name">
+                                    Shop Name : <%= shop.shopName %>
+                                  </h4>
+                                  <h4 class="shop-owner">
+                                    Shop Owner : <%= shop.shopOwner %>
+                                  </h4>
+                                  <h3 class="shop-gstin">
+                                    GSTIN : <%= shop.GSTIN %>
+                                  </h3>
+                                </div>
+                                <div>
+                                  <a href="/deleteShop?id=<%=shop.refID%>" class="delete-shop">Block</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <% }) %>
+                            <% } %>
+                  </div>
+                </div>
+              </div>
+              <%}else if(content==='Reports' ){%>
+                <div class="reports-div">
+                  <h1 class="text-center">This is report div</h1>
+                </div>
+                <%}else{%>
+                  <div class="dashboard-div">
+                    <h3 class="heading">Admin Dashboard</h3>
+                    <div class="dashboard-stats row">
+                      <div class="col-12 mb-4 col-md-6 col-xl-3">
+                        <div class="stat-card">
+                          <i class="fas fa-store fa-2x"></i>
+                          <div>
+                            <p class="stat-title">Total Shops</p>
+                            <p class="stat-value">15</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 mb-4 col-md-6 col-xl-3">
+                        <div class="stat-card">
+                          <i class="fas fa-box fa-2x"></i>
+                          <div>
+                            <p class="stat-title">Total Products</p>
+                            <p class="stat-value">120</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 mb-4 col-md-6 col-xl-3">
+                        <div class="stat-card">
+                          <i class="fas fa-clock fa-2x"></i>
+                          <div>
+                            <p class="stat-title">Pending Requests</p>
+                            <p class="stat-value">5</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 mb-4 col-md-6 col-xl-3">
+                        <div class="stat-card">
+                          <i class="fas fa-chart-line fa-2x"></i>
+                          <div>
+                            <p class="stat-title">Monthly Revenue</p>
+                            <p class="stat-value">$12,450</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="dashboard-section">
+                      <h4>Recent Activities</h4>
+                      <ul class="activity-list">
+                        <li><i class="fas fa-check-circle"></i> Product "T-Shirt" approved by Admin.</li>
+                        <li><i class="fas fa-times-circle"></i> Product "Shoes" rejected by Admin.</li>
+                        <li><i class="fas fa-user-plus"></i> New shop "Fashion Hub" registered.</li>
+                        <li><i class="fas fa-box"></i> New product "Jeans" added by "Fashion World".</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <%}%>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 mb-4 col-sm-6 mb-sm-5 col-xl-3 mb-xl-0">
+              <div class="content_1">
+                <a href="" class="navbar-brand">
+                  <span class="logo">ClothingHub</span>
+                </a>
+                <p>The customer is at the heart of our<br>unique business model, which includes<br>design.</p>
+                <img src="/images/illustration/cards.png" alt="cards">
+              </div>
+            </div>
+            <div class="col-12 mb-4 col-sm-6 mb-sm-5 col-xl-3 mb-xl-0">
+              <div class="content_2">
+                <h4>SHOPPING</h4>
+                <a href="#sellers">Clothing Store</a>
+                <a href="#sellers">Trending Shoes</a>
+                <a href="#sellers">Accessories</a>
+                <a href="#sellers">Sale</a>
+              </div>
+            </div>
+            <div class="col-12 mb-4 col-sm-6 mb-sm-5 col-xl-3 mb-xl-0">
+              <div class="content_3">
+                <h4>SHOPPING</h4>
+                <a href="./contact.html">Contact Us</a>
+                <a href="https://payment-method-sb.netlify.app/" target="_blank">Payment Method</a>
+                <a href="https://delivery-status-sb.netlify.app/" target="_blank">Delivery</a>
+                <a href="https://codepen.io/sandeshbodake/full/Jexxrv" target="_blank">Return and Exchange</a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 mb-sm-5 col-xl-3">
+              <div class="content_4">
+                <h4>NEWLETTER</h4>
+                <p>Be the first to know about new<br>arrivals, look books, sales & promos!</p>
+                <div class="f-mail">
+                  <input type="email" placeholder="Your Email">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="f-design">
+        <div class="f-design-txt container">
+          <p class="mb-0">Design and Code by @Manoj Patil</p>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Bootstrap JS and Popper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+
+</html>

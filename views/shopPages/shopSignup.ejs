@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClothingHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/css/shopCss/shopSignup.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+    <form id="shopSignupForm" method="post" action="/shopSignupData" autocomplete="off">
+      <h2>Shop SignUp</h2>
+      <div class="input-field">
+        <input type="email" id="email" name="email" required>
+        <label>Email</label>
+      </div>
+      <span class="error email-error"></span>
+      <div class="input-field">
+        <input type="password" id="password" name="password" required>
+        <label>Password</label>
+      </div>
+      <span class="error password-error"></span>
+      <button type="submit">Register</button>
+      <div class="register">
+        <p>Already have an account? <a href="/shopLoginPage">Login</a></p>
+      </div>
+    </form>
+  </div>
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#shopSignupForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Clear previous error messages
+        $('.email-error').text('');
+        $('.password-error').text('');
+
+        // Get input values
+        const email = $('#email').val().trim();
+        const password = $('#password').val().trim();
+        let isValid = true;
+
+        // Validate email
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+          $('.email-error').text('Please enter a valid email address.');
+          isValid = false;
+        }
+
+        // Validate password
+        if (password.length < 2) {
+          $('.password-error').text('Password must be at least 3 characters long.');
+          isValid = false;
+        }
+
+        // If valid, send data via Ajax
+        if (isValid) {
+          $.ajax({
+            url: '/shopSignupData',
+            method: 'POST',
+            data: { email, password },
+            success: function (response) {
+              alert(response.message || 'Shop registered successfully!');
+              window.location.href = '/shopLoginPage'; // Redirect on success
+            },
+            error: function (xhr) {
+              const errors = xhr.responseJSON;
+              if (errors) {
+                if (errors.email) {
+                  $('.email-error').text(errors.email);
+                }
+                if (errors.password) {
+                  $('.password-error').text(errors.password);
+                }
+              } else {
+                alert('An error occurred. Please try again.');
+              }
+            },
+          });
+        }
+      });
+    });
+  </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClothingHub</title>
+  <!-- Link to Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+    integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/css/shopCss/shopProfile.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+    <header>
+      <nav class="navigation navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container">
+          <!-- Brand -->
+          <a href="#" class="logo">
+            ClothingHub
+          </a>
+
+          <!-- Toggler Button -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar Links -->
+          <div class="collapse navbar-collapse " id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a href="/" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">About</a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">Category</a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">Shop</a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">Contact</a>
+              </li>
+            </ul>
+
+            <!-- Icons Section -->
+            <div class="d-flex">
+              <a href="/shopProfile" class="icon nav-link">
+                <i class="fa-solid fa-user"></i>
+              </a>
+              <a href="" class="icon nav-link">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </a>
+              <a href="" class="icon nav-link">
+                <i class="fa-regular fa-heart"></i>
+              </a>
+              <a href="" class="icon nav-link">
+                <i class="fa-solid fa-cart-shopping"></i>
+              </a>
+              <a href="/shopLogout" class="icon nav-link">
+                <i class="fa-solid fa-right-from-bracket logout-icon"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        <form method="post" action="/shopProfileUpdate" enctype="multipart/form-data">
+          <div class="profile-section">
+            <div class="row">
+              <div class="left-section-outer col-12 mb-4 col-lg-3 mb-lg-0 h-lg-100">
+                <div class="left-section">
+                  <div class="profile-photo d-flex justify-content-center mb-4">
+                    <div class="position-relative">
+                      <img src="<%= profileData && profileData.profileImg || '/images/illustration/profile-img.jpg' %>"
+                        alt="img" />
+                      <div class="image-selector">
+                        <span class="profile-camera" id="imageUploadTrigger">
+                          <i class="fa-solid fa-camera"></i>
+                        </span>
+                        <input type="file" id="imageUploadInput" accept="image/*" name="shopProfile"
+                          style="display: none" />
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="text-center mb-4">
+                      <h3 class="welcome-msg">
+                        Welcome! <%= profileData && profileData.shopOwner || '' %>
+                      </h3>
+                    </div>
+                    <ul>
+                      <li class="active-ul">
+                        <a href="/shopProfilePage">Profile</a>
+                      </li>
+                      <li>
+                        <a href="">Orders</a>
+                      </li>
+                      <li>
+                        <a href="">Sales</a>
+                      </li>
+                      <li class="mb-0">
+                        <span class="product-span">Product <span class="ms-2"><i class="fa-solid fa-caret-down"></i></span></span>
+                      </li>
+                      <div class="ul-div">
+                        <span class="d-block mb-1 mt-2">
+                          <a href="/shopAddProductPage">Add Product</a>
+                        </span>
+                        <span class="d-block my-0">
+                          <a href="/shopProductList">Products List</a>
+                        </span>
+                      </div>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="right-section-outer col-12 col-lg-9 overflow-auto">
+                <div class="right-section">
+                  <div class="profile-container">
+                    <div class="cover-photo mb-4">
+                      <div class="position-relative">
+                        <img src="<%= profileData && profileData.coverImg || '/images/illustration/cover-img.webp' %>"
+                          alt="img" />
+                        <div class="image-selector1">
+                          <span id="imageUploadTrigger1">
+                            <i class="fa-solid fa-pencil"></i>
+                          </span>
+                          <input type="file" id="imageUploadInput1" accept="image/*" name="shopCover"
+                            style="display: none" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="mb-3 col-12 col-md-6">
+                        <label for="shopOwner" class="form-label">Shop Owner</label>
+                        <input type="text" class="form-control" id="shopOwner" name="shopOwner"
+                          placeholder="Enter shop owner name"
+                          value="<%= profileData && profileData.shopOwner || '' %>" />
+                      </div>
+                      <div class="mb-3 col-12 col-md-6">
+                        <label for="shopName" class="form-label">Shop Name</label>
+                        <input type="text" class="form-control" id="shopName" name="shopName"
+                          placeholder="Enter shop name" value="<%= profileData && profileData.shopName || '' %>" />
+                      </div>
+                      <div class="mb-3 col-12 col-md-6">
+                        <label for="gstin" class="form-label">GSTIN</label>
+                        <input type="text" class="form-control" id="gstin" name="gstin" placeholder="Enter GST no."
+                          value="<%= profileData && profileData.GSTIN || '' %>" />
+                      </div>
+                      <div class="mb-3 col-12 col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter shop email"
+                          value="<%= signupData && signupData.shopEmail || '' %>" readonly />
+                      </div>
+                      <div class="mb-3 col-12 col-md-6">
+                        <label for="street" class="form-label">Street</label>
+                        <input type="text" class="form-control" id="street" name="street" placeholder="123 Main St"
+                          value="<%= profileData && profileData.street || '' %>" />
+                      </div>
+                      <div class="mb-3 col-12 col-md-6">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" class="form-control" id="city" name="city" placeholder="Pune"
+                          value="<%= profileData && profileData.city || '' %>" />
+                      </div>
+                      <div class="mb-3 col-12 col-md-6">
+                        <label for="state" class="form-label">State</label>
+                        <input type="text" class="form-control" id="state" name="state" placeholder="Maharashtra"
+                          value="<%= profileData && profileData.state || '' %>" />
+                      </div>
+                      <div class="mb-3 col-12 col-md-6">
+                        <label for="pin" class="form-label">PIN CODE</label>
+                        <input type="text" class="form-control" id="pin" name="pin" placeholder="411002"
+                          value="<%= profileData && profileData.pin || '' %>" />
+                      </div>
+                      <div class="mb-3 col-12 col-md-6 mb-md-0">
+                        <button type="submit" class="btn btn-submit">Update</button>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <a href="/shopDelete?shopId=<%=profileData._id%>" class="delete-account btn">Delete Account</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 mb-4 col-sm-6 mb-sm-5 col-xl-3 mb-xl-0">
+              <div class="content_1">
+                <a href="" class="navbar-brand">
+                  <span class="logo">ClothingHub</span>
+                </a>
+                <p>The customer is at the heart of our<br>unique business model, which includes<br>design.</p>
+                <img src="/images/illustration/cards.png" alt="cards">
+              </div>
+            </div>
+            <div class="col-12 mb-4 col-sm-6 mb-sm-5 col-xl-3 mb-xl-0">
+              <div class="content_2">
+                <h4>SHOPPING</h4>
+                <a href="#sellers">Clothing Store</a>
+                <a href="#sellers">Trending Shoes</a>
+                <a href="#sellers">Accessories</a>
+                <a href="#sellers">Sale</a>
+              </div>
+            </div>
+            <div class="col-12 mb-4 col-sm-6 mb-sm-5 col-xl-3 mb-xl-0">
+              <div class="content_3">
+                <h4>SHOPPING</h4>
+                <a href="./contact.html">Contact Us</a>
+                <a href="https://payment-method-sb.netlify.app/" target="_blank">Payment Method</a>
+                <a href="https://delivery-status-sb.netlify.app/" target="_blank">Delivery</a>
+                <a href="https://codepen.io/sandeshbodake/full/Jexxrv" target="_blank">Return and Exchange</a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 mb-sm-5 col-xl-3">
+              <div class="content_4">
+                <h4>NEWLETTER</h4>
+                <p>Be the first to know about new<br>arrivals, look books, sales & promos!</p>
+                <div class="f-mail">
+                  <input type="email" placeholder="Your Email">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="f-design">
+        <div class="f-design-txt container">
+          <p class="mb-0">Design and Code by @Manoj Patil</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const imageUploadTrigger = document.getElementById("imageUploadTrigger");
+    const imageUploadInput = document.getElementById("imageUploadInput");
+    const imagePreview = document.getElementById("imagePreview");
+
+    // Trigger file input on span click
+    imageUploadTrigger.addEventListener("click", () => {
+      imageUploadInput.click();
+    });
+
+    // Show preview of selected image
+    imageUploadInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    const imageUploadTrigger1 = document.getElementById(
+      "imageUploadTrigger1"
+    );
+    const imageUploadInput1 = document.getElementById("imageUploadInput1");
+    const imagePreview1 = document.getElementById("imagePreview");
+
+    // Trigger file input on span click
+    imageUploadTrigger1.addEventListener("click", () => {
+      imageUploadInput1.click();
+    });
+
+    // Show preview of selected image
+    imageUploadInput1.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          imagePreview1.src = e.target.result;
+          imagePreview1.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    $('document').ready(function () {
+      $('.product-span').click(function () {
+        $('.ul-div').slideToggle(1000);
+      });
+    })
+  </script>
+</body>
+
+</html>

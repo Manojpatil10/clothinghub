@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClothingHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/css/customerCss/cstResetPassForm.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <form id="resetPasswordForm" method="post" action="/cstUpdatePass">
+      <h2>Reset Password</h2>
+      <input type="text" name="email" name="email" value="<%=email%>" hidden>
+      <div class="input-field">
+        <input type="text" id="password" name="pass" required>
+        <label>New Password</label>
+      </div>
+      <span id="password-error" class="error"></span>
+      <div class="input-field">
+        <input type="text" id="confirmPassword" name="confirmPass" required>
+        <label>Confirm Password</label>
+      </div>
+      <span id="confirm-password-error" class="error"></span>
+      <button type="submit">Reset Password</button>
+    </form>
+  </div>
+
+
+
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#resetPasswordForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        const password = $('#password').val();
+        const confirmPassword = $('#confirmPassword').val();
+
+        let valid = true;
+
+        // Validate password length
+        if (password.length <= 2) {
+          $('#password-error').text('Password must be greater than 2 characters.');
+          valid = false;
+        } else {
+          $('#password-error').text('');
+        }
+
+        // Validate confirm password
+        if (password !== confirmPassword) {
+          $('#confirm-password-error').text('Passwords do not match.');
+          valid = false;
+        } else {
+          $('#confirm-password-error').text('');
+        }
+
+        // If validation passes, submit the form using AJAX
+        if (valid) {
+          $.ajax({
+            url: '/cstUpdatePass',
+            method: 'POST',
+            data: {
+              email: $('input[name="email"]').val(),
+              pass: password,
+              confirmPass: confirmPassword
+            },
+            success: function (response) {
+              // Handle success response (e.g., redirect)
+              window.location.href = '/customerLoginPage';
+            },
+            error: function (xhr, status, error) {
+              // Handle error response
+              alert('An error occurred while resetting the password.');
+            }
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClothingHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/css/customerCss/customerForgetPass.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <form id="forgetPassForm" method="post" action="/cstSendResetPassLink" autocomplete="off">
+      <h2>Forget Password</h2>
+      <div class="input-field">
+        <input type="text" id="email" name="email" required>
+        <label>Enter Your Email</label>
+      </div>
+      <span class="error email-error"></span>
+      <button type="submit">Reset Password</button>
+    </form>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#forgetPassForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        // Clear previous errors
+        $('.error').text('');
+
+        // Get email value
+        const email = $('#email').val().trim();
+        let isValid = true;
+
+        // Validate email format
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+          $('.email-error').text('Please enter a valid email address.');
+          isValid = false;
+        }
+
+        // If valid, send an AJAX request
+        if (isValid) {
+          $.ajax({
+            url: '/cstSendResetPassLink',
+            type: 'POST',
+            data: { 
+              email: email 
+            },
+            success: function (response) {
+              alert('Reset password link sent successfully!');
+              window.location.href = '/cstForgetPassPage'; // Redirect after success
+            },
+            error: function (error) {
+              const errors = error.responseJSON;
+              if (errors && errors.email) {
+                $('.email-error').text(errors.email);
+              } else {
+                alert('An error occurred. Please try again later.');
+              }
+            }
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
