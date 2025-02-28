@@ -1,12 +1,15 @@
 const cartData = require('../../models/cartDataModel');
 const orderData = require('../../models/orderData');
+const nodemailer = require('nodemailer');
 
 exports.checkoutPage = (req, res, next) => {
   const content = req.query.content || 'shopCheckout';
+  const orderNumber = req.query.orderNumber || '';
+
 
   cartData.find({ refID: req.session.cstID }).then((success) => {
     // console.log(success)
-    orderData.findOne({ refID: req.session.cstID }).then((order) => {
+    orderData.findOne({ orderNumber: orderNumber }).then((order) => {
       res.render('indexPages/checkoutPage', { productData: success, content: content, orderData: order });
     }).catch((error) => {
       res.render('indexPages/checkoutPage', { productData: success, content: content, orderData: {} });
@@ -80,7 +83,7 @@ exports.orderDataSave = (req, res, next) => {
 
   Data.save().then((success) => {
     // console.log(success)
-    res.redirect(`/otpVerification?email=${email}`);
+    res.redirect(`/otpVerification?email=${email}&orderNumber=${orderNumber}`);
   }).catch((error) => {
     console.log(error)
   })
@@ -91,7 +94,10 @@ exports.orderDataSave = (req, res, next) => {
 
 exports.otpVerification = (req,res,next) => {
 
-  const email = req.body.email;
+  const email = req.query.email;
+  const orderNumber = req.query.orderNumber
+
+  // console.log(email)
 
   function generateRandomOTP() {
     return Math.floor(100000 + Math.random() * 900000); // Ensures a 6-digit number
@@ -102,12 +108,12 @@ exports.otpVerification = (req,res,next) => {
   const transporter = nodemailer.createTransport({
     service: "gmail", // Use your email service provider (e.g., Gmail, Outlook, etc.)
     auth: {
-      user: "mrpnashik@gmail.com", // Your email
-      pass: "ymze pbed rebv diqo", // Your email password or app-specific password
+      user: process.env.EMAIL_USER, // Your email
+      pass: process.env.EMAIL_PASS, // Your email password or app-specific password
     },
   });
   const mailOptions = {
-    from: "mrpnashik@gmail.com", // Sender address
+    from: process.env.EMAIL_USER, // Sender address
     to: email, // Recipient address(es)
     subject: "ClothingHub - Reset Password", // Email subject
     text: "This OTP is valid for 10 minutes. If you didn't request this, please ignore this message.", // Plain text body
@@ -118,20 +124,31 @@ exports.otpVerification = (req,res,next) => {
       return console.log("Error occurred:", error);
     }
     console.log("Email sent successfully:", info.response);
-    res.redirect(`/verifyOTP?otp=${otp}`);
+    // res.redirect(`/verifyOTP?otp=${otp}`);
+    res.render('indexPages/checkoutPage', { productData: {}, content: "verification", orderData: {} , otp:otp, orderNumber:orderNumber});
+    console.log(otp)
   });
 }
 
 
 exports.verifyOTP=(req,res,next)=>{
-  const otp = req.query.otp;
-  const formOTP = parseInt(request.body.otp);
+  const otp = req.body.enterOtp;
+  const formOTP = req.body.generatedOtp;
+  const orderNumber = req.body.orderNumber;
+
+  // console.log(otp)
+  // console.log(formOTP)
+  // console.log(orderNumber)
 
   if(otp === formOTP){
-    res.redirect('/checkoutPage?content=order');
+    res.redirect(`/checkoutPage?content=order&orderNumber=${orderNumber}`);
   }
   else{
-    res.redirect('/checkoutPage?content=verification');
+    orderData.findOneAndDelete({orderNumber:orderNumber}).then((success)=>{
+      res.redirect('/checkoutPage?content=verification');
+    }).catch((error)=>{
+      console.log(error)
+    })
   }
 
 }

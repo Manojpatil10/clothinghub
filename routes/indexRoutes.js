@@ -25,7 +25,7 @@ indexRouter.get('/exploreMorePage',exploreMorePage);
 indexRouter.get('/pagination',pagination);
 indexRouter.get('/checkoutPage',checkoutPage);
 indexRouter.post('/orderDataSave',orderDataSave);
-indexRouter.post('/otpVerification',otpVerification);
+indexRouter.get('/otpVerification',otpVerification);
 indexRouter.post('/verifyOTP',verifyOTP);
 indexRouter.get('/search',search);
 

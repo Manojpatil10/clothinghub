@@ -19,7 +19,7 @@ const order = new schema({
     required:true
   },
   phone:{
-    type:String,
+    type:Number,
     required:true
   },
   email:{
@@ -48,7 +48,7 @@ const order = new schema({
   },
   note:{
     type:String,
-    required:true
+    required:false
   },
   totalAmount:{
     type:Number,
